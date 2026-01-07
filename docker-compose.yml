@@ -1,0 +1,79 @@
+services:
+  # Application (FrankenPHP + Octane)
+  app:
+    build:
+      context: .
+      dockerfile: .docker/FrankenPHP/Dockerfile
+    image: slaycompany-app
+    restart: unless-stopped
+    # Load all variables from your .env file
+    env_file:
+      - .env
+    # Override specific variables for internal Docker networking
+    environment:
+      DB_HOST: mysql
+      REDIS_HOST: redis
+      OCTANE_SERVER: frankenphp
+      DB_PORT: 3306
+      REDIS_PORT: 6379
+    volumes:
+      - ./:/app
+      # Ignore local node_modules/vendor if needed, or sync them
+      # - /app/vendor
+      # - /app/node_modules
+    networks:
+      - slay-network
+    depends_on:
+      - mysql
+      - redis
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./.docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./:/var/www/html
+    networks:
+      - slay-network
+    depends_on:
+      - app
+
+  # MySQL 8.0
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    environment:
+      # These will pull values from your .env file automatically
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+      MYSQL_DATABASE: ${DB_DATABASE:-slaycompany}
+      MYSQL_USER: ${DB_USERNAME:-slay_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-slay_pass}
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "6606:3306"
+    networks:
+      - slay-network
+
+  # Redis
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6979:6379"
+    networks:
+      - slay-network
+
+volumes:
+  db-data:
+  redis-data:
+
+networks:
+  slay-network:
+    driver: bridge
