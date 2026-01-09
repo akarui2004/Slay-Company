@@ -48,7 +48,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
     environment:
       # These will pull values from your .env file automatically
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+      MYSQL_ROOT_PASSWORD: ${MASTER_ROOT_PASSWORD:-root}
       MYSQL_DATABASE: ${DB_DATABASE:-slaycompany}
       MYSQL_USER: ${DB_USERNAME:-slay_user}
       MYSQL_PASSWORD: ${DB_PASSWORD:-slay_pass}
