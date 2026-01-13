@@ -1,0 +1,3 @@
+id,name,code,description
+1,Super Admin,super.admin,"Universal administrator with full, permission-free access to all resources"
+2,Admin,admin,"Administrator that need a permission for a module, feature, functional"

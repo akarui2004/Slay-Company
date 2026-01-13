@@ -1,0 +1,12 @@
+id,name,code,description
+1,Manage Users, user.manage,"Permission to create, edit, and delete user accounts"
+2,View Users, user.view,"Permission to view user account lists and details"
+3,Manage User Credentials, user.credential.manage,"Permission to reset and manage user passwords and credentials"
+4,View User Credentials, user.credential.view,"Permission to view user credentials information - accessKey only"
+5,Manage Roles, role.manage,"Permission to create, edit, and delete user roles"
+6,View Roles, role.view,"Permission to view user roles and their associated permissions"
+7,Assign Roles, role.assign,"Permission to assign roles to users"
+8,Assign Role Permissions, role.permission.assign,"Permission to assign permissions to roles"
+9,Manage Permissions, permission.manage,"Permission to create, edit, and delete permissions"
+10,View Permissions, permission.view,"Permission to view permissions details"
+11,Assign User Permissions, user.permission.assign,"Permission to assign specific permissions directly to users"
