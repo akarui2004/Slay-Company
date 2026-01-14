@@ -39,7 +39,7 @@ class RolePermissionSeeder extends Seeder
 
         fclose($handle); // close the file after reading
 
-        $tableName = (new RolePermission()->getTable());
+        $tableName = (new RolePermission())->getTable();
         DB::table($tableName)->upsert($rolePermissions, ['role_id', 'permission_id'], ['updated_at']);
         $this->command->info("Role-Permissions seeded/updated successfully.");
     }

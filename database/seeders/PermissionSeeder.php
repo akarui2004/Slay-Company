@@ -38,7 +38,7 @@ class PermissionSeeder extends Seeder
 
         fclose($handle); // close the file after reading
 
-        $tableName = (new Permission()->getTable());
+        $tableName = (new Permission())->getTable();
         DB::table($tableName)->upsert($permissions, ['code'], ['name', 'description', 'updated_at']);
         $this->command->info("Permissions seeded/updated successfully.");
     }
