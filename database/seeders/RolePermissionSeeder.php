@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\RolePermission;
+use App\Models\RolePermissions;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +39,7 @@ class RolePermissionSeeder extends Seeder
 
         fclose($handle); // close the file after reading
 
-        $tableName = (new RolePermission())->getTable();
+        $tableName = (new RolePermissions())->getTable();
         DB::table($tableName)->upsert($rolePermissions, ['role_id', 'permission_id'], ['updated_at']);
         $this->command->info("Role-Permissions seeded/updated successfully.");
     }

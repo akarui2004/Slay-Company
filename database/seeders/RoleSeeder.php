@@ -26,9 +26,10 @@ class RoleSeeder extends Seeder
         while($data = fgetcsv($handle, 2000, ",")) {
             if ($row >= 1) {
                 $roles[] = [
-                    'name' => $data[0],
-                    'code' => $data[1],
-                    'description' => $data[2],
+                    'id' => $data[0],
+                    'name' => $data[1],
+                    'code' => $data[2],
+                    'description' => $data[3],
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];

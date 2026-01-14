@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class RolePermission extends Pivot
+class UserPermissions extends Pivot
 {
-    protected $table = 'role_permission';
+    protected $table = 'user_permissions';
 
     protected $fillable = [
-        'role_id',
+        'user_id',
         'permission_id',
     ];
 }
