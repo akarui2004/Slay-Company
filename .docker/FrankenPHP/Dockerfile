@@ -1,7 +1,7 @@
 FROM dunglas/frankenphp:php8.4
 
 # Install system dependencies and PHP extensions
-# Added 'zip' and 'unzip' which are often needed for Composer
+# Added 'zip' (PHP ext) and OS-level unzip/7z for Composer
 RUN install-php-extensions \
     pcntl \
     bcmath \
@@ -13,6 +13,20 @@ RUN install-php-extensions \
     redis \
     soap \
     exif
+
+# Install OS tools for reliable archive extraction (Composer prefers these)
+RUN set -eux; \
+    if command -v apt-get >/dev/null 2>&1; then \
+        export DEBIAN_FRONTEND=noninteractive; \
+        apt-get update; \
+        apt-get install -y --no-install-recommends unzip p7zip-full; \
+        rm -rf /var/lib/apt/lists/*; \
+    elif command -v apk >/dev/null 2>&1; then \
+        apk add --no-cache unzip p7zip; \
+    else \
+        echo "Unsupported base image: neither apt-get nor apk found" >&2; \
+        exit 1; \
+    fi
 
 # Set working directory
 WORKDIR /app
